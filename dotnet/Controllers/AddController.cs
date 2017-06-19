@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using BasicApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace basic_api_dotnet.Controllers
+namespace BasicApi.Controllers
 {
     public class AddController : Controller
     {
@@ -17,9 +15,9 @@ namespace basic_api_dotnet.Controllers
 
         [HttpPost]
         [Route("add")]
-        public IActionResult Post([FromBody]int[] numbers)
+        public IActionResult Post([FromBody]Numbers numbers)
         {
-            return Ok(new { sum = numbers.Sum() });
+            return Ok(new { sum = numbers.Values.Sum() });
         }
     }
 }
