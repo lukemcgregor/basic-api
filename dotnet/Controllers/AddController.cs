@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+﻿using System.Linq;
+using BasicApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace basic_api_dotnet.Controllers
+namespace BasicApi.Controllers
 {
     public class AddController : Controller
     {
@@ -22,12 +19,5 @@ namespace basic_api_dotnet.Controllers
         {
             return Ok(new { sum = numbers.Values.Sum() });
         }
-    }
-
-    [XmlRoot(ElementName = "numbers")]
-    public class Numbers
-    {   
-        [XmlElement("value")]     
-        public int[] Values { get; set; }
     }
 }
