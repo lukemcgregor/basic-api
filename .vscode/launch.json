@@ -1,11 +1,39 @@
 {
-   // Use IntelliSense to find out which attributes exist for C# debugging
-   // Use hover for the description of the existing attributes
-   // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
-   "version": "0.2.0",
-   "configurations": [
+    // Use IntelliSense to find out which attributes exist for C# debugging
+    // Use hover for the description of the existing attributes
+    // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+    "version": "0.2.0",
+    "configurations": [
         {
-            "name": ".NET Core Launch (web)",
+            "name": "go",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "remotePath": "",
+            "port": 2345,
+            "host": "127.0.0.1",
+            "program": "${workspaceRoot}/go",
+            "env": {},
+            "args": [],
+            "showLog": true
+        },
+        {
+            "name": "nodejs",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceRoot}/nodejs",
+            "runtimeExecutable": "node",
+            "program": "${workspaceRoot}/nodejs/server.js",
+            "windows": {
+                "runtimeExecutable": "node"
+            },
+            "runtimeArgs": [
+                "debug"
+            ],
+            "port": 5858
+        },
+        {
+            "name": "dotnet",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
