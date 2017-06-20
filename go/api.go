@@ -2,25 +2,52 @@ package main
 
 import (
 	"encoding/xml"
-	"fmt"
-	"html"
 	"log"
 	"net/http"
+	"strconv"
+
+	"github.com/jchannon/negotiator"
+	"github.com/julienschmidt/httprouter"
 )
 
 type numbers struct {
-	value []int
+	Value []int `xml:"value"`
+}
+
+type sum struct {
+	Sum int64 `xml:",chardata" json:"sum"`
 }
 
 func main() {
-	primes := numbers{[]int{2, 3, 5, 7, 11, 13}}
-	out, _ := xml.Marshal(primes)
-	fmt.Println(string(out))
+	router := httprouter.New()
+	router.GET("/add/:x/to/:y", func(responseWriter http.ResponseWriter, request *http.Request, params httprouter.Params) {
+		x, _ := strconv.ParseInt(params.ByName("x"), 10, 64)
+		y, _ := strconv.ParseInt(params.ByName("y"), 10, 64)
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
+		if err := negotiator.Negotiate(responseWriter, request, sum{x + y}); err != nil {
+			http.Error(responseWriter, err.Error(), http.StatusInternalServerError)
+		}
 	})
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	router.POST("/add", func(responseWriter http.ResponseWriter, request *http.Request, params httprouter.Params) {
+		decoder := xml.NewDecoder(request.Body)
+		var payload numbers
+		err := decoder.Decode(&payload)
+		if err != nil {
+			http.Error(responseWriter, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		defer request.Body.Close()
+		var total int64
 
+		for val := range payload.Value {
+			total += int64(val)
+		}
+
+		if err := negotiator.Negotiate(responseWriter, request, sum{total}); err != nil {
+			http.Error(responseWriter, err.Error(), http.StatusInternalServerError)
+		}
+	})
+
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
