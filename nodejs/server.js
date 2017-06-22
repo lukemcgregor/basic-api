@@ -11,11 +11,11 @@ app.use(bodyParser.xml());
 var port = process.env.PORT || 8080;
 var router = express.Router();
 
-router.get('/add/:x/to/:y', function(req, res) {
+router.get('/add/:x/to/:y', (req, res) => {
     res.json({ sum: parseInt(req.params.x) + parseInt(req.params.y) });
 });
 
-router.post('/add', function(req, res) {
+router.post('/add', (req, res) => {
     var sum = req.body.numbers.value.reduce((a, b) => parseInt(a) + parseInt(b), 0);
     res.format({
         xml: () => {
