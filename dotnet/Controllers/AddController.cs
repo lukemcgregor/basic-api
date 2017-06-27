@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using BasicApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +11,7 @@ namespace BasicApi.Controllers
         [Route("add/{x}/to/{y}")]
         public IActionResult Get(int x, int y)
         {
-            return Ok(x + y);
+            return Ok(new { sum = x + y});
         }
 
         [HttpPost]
