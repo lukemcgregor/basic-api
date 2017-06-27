@@ -254,3 +254,4 @@ paket-files/
 dist/
 
 go/debug
+tester/debug
