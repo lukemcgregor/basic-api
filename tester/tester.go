@@ -21,7 +21,7 @@ type sum struct {
 }
 
 const numberOfCallsPerThread = 125000
-const numberOfThreads = 8 //matches my core count
+const numberOfThreads = 4 //matches my core count
 
 func main() {
 	var chans [numberOfThreads]chan time.Duration
